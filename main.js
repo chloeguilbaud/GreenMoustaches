@@ -60,7 +60,7 @@ var findClosestOrder = function (orders, pos) {
 
 var findHighestBonus = function (orders, pos) {
     orders = orders.sort(function (orderA, orderB) {
-        return helpers.compare_bonus(orderA.amount, orderB.amount)
+        return !helpers.compare_bonus(orderA.amount, orderB.amount)
     });
     return orders[orders.length-1];
 }
