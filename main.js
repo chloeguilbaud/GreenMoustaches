@@ -2,7 +2,7 @@ var _ = require('lodash');
 
 var helpers = require('./helpers.js')
 
-const USERNAME = "GreenMoustaches";
+const USERNAME = "JE_DOIS_METTRE_MON_PRENOM";
 const POSITION_ORIGINE = {
     lat: 0.5,
     lng: 0.5
@@ -38,7 +38,7 @@ var solve_problem_dumb = function (problem) {
     while(problem.orders.length > 0) {
         console.log(problem.orders.length);
         // On prend la commande la plus proche et on l'ajoute au trajet du livreur
-        var order = findClosestLowestBonus(problem.orders, pos, 5);
+        var order = findClosestOrder(problem.orders, pos);
         solution.orders.push(order.order_id);
 
         // On garde en mémoire la nouvelle position du livreur
@@ -58,29 +58,5 @@ var findClosestOrder = function (orders, pos) {
     return orders[orders.length-1];
 }
 
-var findHighestBonus = function (orders, pos) {
-    orders = orders.sort(function (orderA, orderB) {
-        return !helpers.compare_bonus(orderA.amount, orderB.amount)
-    });
-    return orders[orders.length-1];
-}
-
-var findLowestBonus = function (orders) {
-    orders = orders.sort(function (orderA, orderB) {
-        return !helpers.compare_bonus(orderA.amount, orderB.amount)
-    });
-    return orders[orders.length-1];
-}
-
-var findClosestLowestBonus = function (orders, pos, distance) {
-    var result = orders
-    console.log(result[0])
-    orders = orders.sort(function (orderA, orderB) {
-        return helpers.closest_lowest(orderA, orderB, pos, distance);
-    })
-    console.log(orders[0])
-    return orders[orders.length-1];
-}
-
-var solution = solve_problem_dumb(problems.problem1);
+var solution = solve_problem_dumb(problems.problem3);
 helpers.send_solution(solution);
