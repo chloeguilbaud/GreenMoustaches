@@ -61,7 +61,7 @@ exports.compute_dist = function (lat_a, lng_a, lat_b, lng_b) {
     return d
 };
 
-exports.is_within_reachable_distance = function (element, pos, distance) {
+exports.is_within_reachable_distance = function (element, index, arr, pos, distance) {
     return this.compute_dist(element.lat, element.lng, pos.lat, pos.lng) <= distance;
 }
 
