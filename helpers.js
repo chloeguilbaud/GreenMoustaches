@@ -34,6 +34,9 @@ exports.send_solution = function (solution) {
         json: solution
       };
     request(options, function (error, response, body) {
+        console.log(error);
+        console.log(response);
+        console.log(body);
         if(error) {
             console.log(error);
         }
@@ -59,3 +62,8 @@ exports.compute_dist = function (lat_a, lng_a, lat_b, lng_b) {
     var d = earthRadius * c;
     return d
 };
+
+exports.compare_bonus = function (amount_a, amount_b) {
+    var result = amount_a <= amount_b;
+    return result;
+}
