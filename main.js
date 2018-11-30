@@ -73,7 +73,9 @@ var findLowestBonus = function (orders) {
 }
 
 var findClosestLowestBonus = function (orders, pos, distance) {
+    console.log(orders[0].amount + orders[1].amount + orders[2].amount + orders[3].amount + orders[4].amount + orders[5].amount+ orders[6].amount + orders[7].amount + orders[8].amount)
     var result = helpers.closest_lowest(orders, pos, distance);
+    console.log(result[0].amount + result[1].amount + result[2].amount + result[3].amount + result[4].amount + result[5].amount+ result[6].amount + result[7].amount + result[8].amount)
     result = result.sort(function (orderA, orderB) {
         return helpers.compare_bonus(orderA, orderB);
     })

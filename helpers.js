@@ -61,7 +61,7 @@ exports.compute_dist = function (lat_a, lng_a, lat_b, lng_b) {
     return d
 };
 
-exports.is_within_reachable_distance = function (element, pos, distance) {
+exports.is_within_reachable_distance = function (element, index, arr, pos, distance) {
     return this.compute_dist(element.lat, element.lng, pos.lat, pos.lng) <= distance;
 }
 
@@ -73,9 +73,9 @@ exports.compare_bonus = function (amount_a, amount_b) {
 exports.closest_lowest = function (orders, pos, rayon) {
     var i = 0;
     var result = orders;
-    while (result.length == 0) {
-        result = orders.filter(order => this.is_within_reachable_distance(order, pos, rayon + i) == true);
-        i++;
+    while (result.length === 0) {
+        result = orders.filter(order => this.is_within_reachable_distance(order, index, arr, pos, rayon + i) == true);
+        //i++;
     }    
     return result;
 }
