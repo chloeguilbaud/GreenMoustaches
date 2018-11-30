@@ -73,9 +73,12 @@ var findLowestBonus = function (orders) {
 }
 
 var findClosestLowestBonus = function (orders, pos, distance) {
+    var result = orders
+    console.log(result[0])
     orders = orders.sort(function (orderA, orderB) {
-        return !helpers.closest_lowest(orderA, orderB, pos, distance);
+        return helpers.closest_lowest(orderA, orderB, pos, distance);
     })
+    console.log(orders[0])
     return orders[orders.length-1];
 }
 
