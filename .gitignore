@@ -13,6 +13,7 @@ log.txt
 npm-debug.log*
 *.iml
 package-lock.json
+.idea/workspace.xml
 
 .idea/*
 .sourcemaps/
