@@ -70,14 +70,16 @@ exports.compare_bonus = function (amount_a, amount_b) {
     return result;
 }
 
-exports.closest_lowest = function (orders, pos, rayon) {
-    var i = 0;
-    var result = orders;
-    while (result.length == 0) {
-        result = orders.filter(order => this.is_within_reachable_distance(order, pos, rayon + i) == true);
-        i++;
-    }    
-    return result;
+exports.closest_lowest = function (orderA, orderB, pos, rayon) {
+    var isAReachable = this.is_within_reachable_distance(orderA, pos, rayon);
+    var isBReachable = this.is_within_reachable_distance(orderB, pos, rayon);
+    if (isAReachable && isBReachable) {
+        return orderA.amount <= orderB.amount;
+    } else if (isAReachable) {
+        return true
+    } else {
+        return false
+    }
 }
 
 exports.get_score = function(problem, orders) {

@@ -73,11 +73,9 @@ var findLowestBonus = function (orders) {
 }
 
 var findClosestLowestBonus = function (orders, pos, distance) {
-    var result = helpers.closest_lowest(orders, pos, distance);
-    result = result.sort(function (orderA, orderB) {
-        return helpers.compare_bonus(orderA, orderB);
+    orders = orders.sort(function (orderA, orderB) {
+        return !helpers.closest_lowest(orderA, orderB, pos, distance);
     })
-    orders = result.concat(orders);
     return orders[orders.length-1];
 }
 
