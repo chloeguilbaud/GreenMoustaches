@@ -38,7 +38,7 @@ var solve_problem_dumb = function (problem) {
     while(problem.orders.length > 0) {
         console.log(problem.orders.length);
         // On prend la commande la plus proche et on l'ajoute au trajet du livreur
-        var order = findClosestOrder(problem.orders, pos);
+        var order = findHighestBonus(problem.orders, pos);
         solution.orders.push(order.order_id);
 
         // On garde en mémoire la nouvelle position du livreur
@@ -58,5 +58,12 @@ var findClosestOrder = function (orders, pos) {
     return orders[orders.length-1];
 }
 
-var solution = solve_problem_dumb(problems.problem3);
+var findHighestBonus = function (orders, pos) {
+    orders = orders.sort(function (orderA, orderB) {
+        return helpers.compare_bonus(orderA.amount, orderB.amount)
+    });
+    return orders[orders.length-1];
+}
+
+var solution = solve_problem_dumb(problems.problem1);
 helpers.send_solution(solution);
