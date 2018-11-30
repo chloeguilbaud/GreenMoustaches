@@ -1,5 +1,6 @@
 var fs = require('fs');
 const request = require('request');
+var _ = require('lodash');
 
 const API_HOST = 'http://api.formation.dataheroes.fr:8080/simulation';
 
@@ -34,9 +35,6 @@ exports.send_solution = function (solution) {
         json: solution
       };
     request(options, function (error, response, body) {
-        console.log(error);
-        console.log(response);
-        console.log(body);
         if(error) {
             console.log(error);
         }
@@ -63,7 +61,51 @@ exports.compute_dist = function (lat_a, lng_a, lat_b, lng_b) {
     return d
 };
 
+exports.is_within_reachable_distance = function (element, pos, distance) {
+    return this.compute_dist(element.lat, element.lng, pos.lat, pos.lng) <= distance;
+}
+
 exports.compare_bonus = function (amount_a, amount_b) {
     var result = amount_a <= amount_b;
     return result;
 }
+
+exports.closest_lowest = function (orders, pos, rayon) {
+    var i = 0;
+    var result = orders;
+    while (result.length == 0) {
+        result = orders.filter(order => this.is_within_reachable_distance(order, pos, rayon + i) == true);
+        i++;
+    }    
+    return result;
+}
+
+exports.get_score = function(problem, orders) {
+	var total_distance_solution = 0;
+	var total_bonus_solution = 0;
+	
+	var pos = {
+		lat: 0.5,
+		lng: 0.5
+	};
+	
+	_.each(orders, function (order_id, i_order) {
+		var order = _.find(problem.orders, function (o) {
+            return o.order_id === order_id
+        });
+		var distance_order = exports.compute_dist(pos.lat, pos.lng, order.pos_lat, order.pos_lng);
+        var bonus_order = Math.max(0, order.amount - i_order);
+
+		total_distance_solution += distance_order;
+		total_bonus_solution += bonus_order;
+		
+		pos.lat = order.pos_lat;
+		pos.lng = order.pos_lng;
+	});
+
+	return {
+        total_distance: total_distance_solution,
+        total_bonus: total_bonus_solution,
+        score: total_bonus_solution - total_distance_solution
+    };
+};
